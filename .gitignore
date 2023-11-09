@@ -1,0 +1,7 @@
+.vscode
+.cache
+build
+test
+bin
+log
+client/bin
