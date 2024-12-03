@@ -5,3 +5,5 @@ test
 bin
 log
 client/bin
+.idea
+cmake-build-debug
