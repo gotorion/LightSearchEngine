@@ -1,5 +1,12 @@
-cmake_minimum_required(VERSION 3.10)
-project(SearchEngine)
+cmake_minimum_required(VERSION 3.20)
+
+project(SearchEngine
+    LANGUAGES C CXX
+)
+
+if (NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+    message(FATAL_ERROR "This project only works on Linux")
+endif ()
 
 # 设置编译选项
 # 必须指定C++17，否则无法连接redis++
@@ -8,46 +15,46 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #添加可执行文件 server
 add_executable(SearchServer
-    src/server/Acceptor.cc
-    src/server/Condition.cc
-    src/server/EventLoop.cc
-    src/server/InetAddress.cc
-    src/server/main.cc
-    src/server/MutexLock.cc
-    src/server/SearchServer.cc
-    src/server/Socket.cc
-    src/server/SocketIO.cc
-    src/server/TaskQueue.cc
-    src/server/TcpConnection.cc
-    src/server/TcpServer.cc
-    src/server/Thread.cc
-    src/server/ThreadPool.cc
-    src/server/SearchServer.cc
-    src/server/ProtocolParser.cc
-    src/server/Timerfd.cc
-    src/dict/EditDistance.cc
-    src/dict/EnRecommender.cc
-    # src/dict/ChDictionary.cc
-    src/dict/ChRecommender.cc
-    # src/dict/MixedDictionary.cc
-    src/dict/MixedRecommender.cc
-    src/utility/CppJieba.cc
-    src/utility/Mylogger.cc
-    src/utility/Configure.cc
-    src/utility/WebPageQuery.cc
-    src/utility/CacheManager.cc
-    src/utility/LRUCache.cc
-    src/utility/Time.cc
-    src/utility/RedisServer.cc
-    src/utility/Query.cc
+        src/server/Acceptor.cc
+        src/server/Condition.cc
+        src/server/EventLoop.cc
+        src/server/InetAddress.cc
+        src/server/main.cc
+        src/server/MutexLock.cc
+        src/server/SearchServer.cc
+        src/server/Socket.cc
+        src/server/SocketIO.cc
+        src/server/TaskQueue.cc
+        src/server/TcpConnection.cc
+        src/server/TcpServer.cc
+        src/server/Thread.cc
+        src/server/ThreadPool.cc
+        src/server/SearchServer.cc
+        src/server/ProtocolParser.cc
+        src/server/Timerfd.cc
+        src/dict/EditDistance.cc
+        src/dict/EnRecommender.cc
+        # src/dict/ChDictionary.cc
+        src/dict/ChRecommender.cc
+        # src/dict/MixedDictionary.cc
+        src/dict/MixedRecommender.cc
+        src/utility/CppJieba.cc
+        src/utility/Mylogger.cc
+        src/utility/Configure.cc
+        src/utility/WebPageQuery.cc
+        src/utility/CacheManager.cc
+        src/utility/LRUCache.cc
+        src/utility/Time.cc
+        src/utility/RedisServer.cc
+        src/utility/Query.cc
 )
 
 # 添加头文件搜索路径
 target_include_directories(SearchServer PRIVATE
-    include
-    include/server
-    include/dict
-    include/utility
+        include
+        include/server
+        include/dict
+        include/utility
 )
 
 # 链接 pthread 库
@@ -69,27 +76,27 @@ target_link_libraries(SearchServer PRIVATE log4cpp)
 install(TARGETS SearchServer DESTINATION ${PROJECT_SOURCE_DIR}/bin)
 
 
- #添加可执行文件
- add_executable(mainPageLib
-    src/PageLib/DirScanner.cc
-    src/PageLib/PageLibPreprocessor.cc
-    src/PageLib/SplitTool.cc
-    src/PageLib/WebPage.cc
-    src/PageLib/main.cc
-    src/PageLib/RssReader.cc
-    src/PageLib/tinyxml2.cc
-    src/utility/Configure.cc
-    src/utility/Time.cc
-    src/utility/Query.cc
- )
+#添加可执行文件
+add_executable(mainPageLib
+        src/PageLib/DirScanner.cc
+        src/PageLib/PageLibPreprocessor.cc
+        src/PageLib/SplitTool.cc
+        src/PageLib/WebPage.cc
+        src/PageLib/main.cc
+        src/PageLib/RssReader.cc
+        src/PageLib/tinyxml2.cc
+        src/utility/Configure.cc
+        src/utility/Time.cc
+        src/utility/Query.cc
+)
 
- # 添加头文件搜索路径
- target_include_directories(mainPageLib PRIVATE
-    include/PageLib
-    include
-    include/simhash
-    include/utility
- )
+# 添加头文件搜索路径
+target_include_directories(mainPageLib PRIVATE
+        include/PageLib
+        include
+        include/simhash
+        include/utility
+)
 
 # # 链接log4cpp库
 # target_link_libraries(mainPageLib PRIVATE log4cpp)
@@ -102,20 +109,20 @@ install(TARGETS mainPageLib DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # 添加可执行文件
 add_executable(indexgen
-    src/indexgen/dictionary.cc
-    src/indexgen/DirScanner.cc
-    src/indexgen/main.cc
-    src/utility/CppJieba.cc
-    src/utility/Configure.cc
-    src/utility/Time.cc
-    src/utility/Query.cc
+        src/indexgen/dictionary.cc
+        src/indexgen/DirScanner.cc
+        src/indexgen/main.cc
+        src/utility/CppJieba.cc
+        src/utility/Configure.cc
+        src/utility/Time.cc
+        src/utility/Query.cc
 )
 target_link_libraries(indexgen PRIVATE mysqlclient)
 #添加头文件搜索路径
 target_include_directories(indexgen PRIVATE
-    include/indexgen
-    include/utility
-    include
+        include/indexgen
+        include/utility
+        include
 )
 
 #指定安装规则
@@ -133,7 +140,7 @@ add_executable(client
         client/src/TcpConnection.cpp)
 
 target_include_directories(client PRIVATE
-    client/include)
+        client/include)
 
 install(TARGETS client DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/client/bin)
 # # 添加可执行文件
